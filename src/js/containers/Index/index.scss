@@ -1,0 +1,54 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .header {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    position: absolute;
+    top: 10%;
+    text-align: center;
+
+    .fa {
+      font-size: 5em;
+    }
+
+    .round div:not(:last-of-type) {
+      font-size: 1.5em;
+    }
+
+    .win {
+      color: lightgreen;
+    }
+  }
+  .board {
+    width: 45%;
+    height: 45%;
+    background: gray;
+
+    .row {
+      width: 100%;
+      height: 33.8%;
+      display: flex;
+      justify-content: space-between;
+
+      .cell {
+        width: 33%;
+        height: 97%;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .fa {
+          display: block;
+          font-size: 5em;
+        }
+      }
+    }
+  }
+}
