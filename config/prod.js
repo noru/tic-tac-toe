@@ -1,4 +1,4 @@
 module.exports = {
-  publicPath: '/airwallex-test/build/',
+  publicPath: '/tic-tac-toe/build/',
   basename: '',
 }
