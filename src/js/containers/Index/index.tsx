@@ -2,7 +2,7 @@ import React from 'react'
 import FA from 'react-fontawesome'
 import './index.scss'
 
-const EMPTY_BOARD = [new Array(3).fill(-1), new Array(3).fill(-1), new Array(3).fill(-1)]
+const EMPTY_BOARD = new Array(9).fill(-1)
 const X = () => <FA name="close" size="4x"/>
 const O = () => <FA name="circle-o" size="4x"/>
 const Cell = ({onClick, children}) => <div onClick={onClick} className="cell">{ children }</div>
@@ -29,46 +29,52 @@ export class Index extends React.Component<any, any> {
     this.setState({ round: 0, xWin: false, oWin: false })
   }
 
-  mark(x: number, y: number) {
+  mark(x: number) {
     let { board, round } = this.state
-    if (board[x][y] === -1) {
-      board[x][y] = round % 2
+
+    if (board[x] === -1) {
+      board[x] = round % 2
       this.setState({ board, round: round + 1 })
     } else {
-      console.warn('Illegal play')
+      throw Error('Illegal play')
     }
   }
 
   evaluate() {
     let { board } = this.state
     for (let i = 0; i < 3; i++) {
-      if (Index.winCondition(...board[i])) {
+      let j = i * 3
+      if (Index.winCondition(board[j], board[j + 1], board[j + 2])) {
         return true
       }
-      if (Index.winCondition(board[0][i], board[1][i], board[2][i])) {
+      if (Index.winCondition(board[i], board[i + 3], board[i + 6])) {
         return true
       }
     }
-    if (Index.winCondition(board[0][0], board[1][1], board[2][2])) {
+    if (Index.winCondition(board[0], board[4], board[8])) {
       return true
     }
-    if (Index.winCondition(board[0][2], board[1][1], board[2][0])) {
+    if (Index.winCondition(board[2], board[4], board[6])) {
       return true
     }
     return false
   }
 
-  play(x, y) {
+  play(x) {
     let { xWin, oWin } = this.state
     if (xWin || oWin) return
-    this.mark(x, y)
-    if (this.evaluate()) {
-      let { round } = this.state
-      if (round % 2) {
-        this.setState({ xWin: true })
-      } else {
-        this.setState({ oWin: true })
+    try {
+      this.mark(x)
+      if (this.evaluate()) {
+        let { round } = this.state
+        if (round % 2) {
+          this.setState({ xWin: true })
+        } else {
+          this.setState({ oWin: true })
+        }
       }
+    } catch (error) {
+      // do nothing
     }
   }
 
@@ -97,26 +103,26 @@ export class Index extends React.Component<any, any> {
         <div className="board">
           <div className="row">
           {
-            board[0].map((v, i) => <Cell key={'0' + i} onClick={() => this.play(0, i)}>
-                { v === 0 && <O /> }
+            board.map((v, i) => i % 3 === 0 ? <Cell key={i} onClick={() => this.play(i)}>
+            { v === 0 && <O /> }
                 { v === 1 && <X /> }
-              </Cell>)
+              </Cell> : null).filter(Boolean)
           }
           </div>
           <div className="row">
           {
-            board[1].map((v, i) => <Cell key={'1' + i}  onClick={() => this.play(1, i)}>
+            board.map((v, i) => i % 3 === 1 ? <Cell key={i} onClick={() => this.play(i)}>
                 { v === 0 && <O /> }
                 { v === 1 && <X /> }
-              </Cell>)
+              </Cell> : null).filter(Boolean)
           }
           </div>
           <div className="row">
           {
-            board[2].map((v, i) => <Cell key={'2' + i} onClick={() => this.play(2, i)}>
+            board.map((v, i) => i % 3 === 2 ? <Cell key={i} onClick={() => this.play(i)}>
                 { v === 0 && <O /> }
                 { v === 1 && <X /> }
-              </Cell>)
+              </Cell> : null).filter(Boolean)
           }
           </div>
         </div>
