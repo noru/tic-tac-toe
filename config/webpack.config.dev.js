@@ -20,7 +20,6 @@ module.exports = merge(config, {
       'webpack/hot/only-dev-server',
       path.join(__dirname, '../src/js/index')
     ],
-    vendor: ['react', 'react-dom' ],
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

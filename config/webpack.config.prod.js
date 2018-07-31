@@ -20,7 +20,6 @@ module.exports = merge(config, {
   mode: 'production',
   entry: {
     app: path.join(__dirname, '../src/js/index'),
-    vendor: ['react', 'react-dom']
   },
   output: {
     filename: 'assets/js/[name].[hash].js',
