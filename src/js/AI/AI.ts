@@ -85,6 +85,7 @@ export default class AI {
   }
 
   static isWinMove(i, board, side): boolean {
+    console.info(`Evaluate if pos ${i} is a win move`)
     let rowRest = AI.getRowRest(i).map(idx => board[idx])
     if (AI.equal(side, ...rowRest)) {
       console.info('row win: ', side, ...rowRest)
@@ -99,9 +100,11 @@ export default class AI {
       return AI.equal(board[0], side, board[8]) || AI.equal(board[2], side, board[6])
     }
 
-    if (i % 2 === 0 && AI.equal(side, ...AI.getDiagonalRest(i))) {
+    if (i % 2 === 0 && AI.equal(side, ...AI.getDiagonalRest(i).map(idx => board[idx]))) {
+      console.info('diagonal win: ', side, ...colRest)
       return true
     }
+    console.info(`Pos ${i} is not a win move`)
     return false
   }
 
