@@ -72,6 +72,7 @@ export class Index extends React.Component<any, any> {
     let { round } = this.state
     let current = round % 2
     try {
+      console.info('Play at: ', x)
       this.mark(x)
       if (this.evaluate()) {
         if (current) {
@@ -100,7 +101,7 @@ export class Index extends React.Component<any, any> {
     if (current === 1 && isAIRight) {
       playFunc = func(Index.AIRight)
     }
-    playFunc && setTimeout(playFunc, 500)
+    playFunc && setTimeout(playFunc, 1500)
   }
 
   init = () => {
@@ -145,26 +146,26 @@ export class Index extends React.Component<any, any> {
         <div className="board">
           <div className="row">
           {
-            board.map((v, i) => i % 3 === 0 ? <Cell key={i} onClick={() => this.play(i)}>
+            board.slice(0, 3).map((v, i) => <Cell key={i} onClick={() => this.play(i)}>
             { v === 0 && <O /> }
                 { v === 1 && <X /> }
-              </Cell> : null).filter(Boolean)
+              </Cell>)
           }
           </div>
           <div className="row">
           {
-            board.map((v, i) => i % 3 === 1 ? <Cell key={i} onClick={() => this.play(i)}>
-                { v === 0 && <O /> }
+            board.slice(3, 6).map((v, i) => <Cell key={i + 3} onClick={() => this.play(i + 3)}>
+            { v === 0 && <O /> }
                 { v === 1 && <X /> }
-              </Cell> : null).filter(Boolean)
+              </Cell>)
           }
           </div>
           <div className="row">
           {
-            board.map((v, i) => i % 3 === 2 ? <Cell key={i} onClick={() => this.play(i)}>
-                { v === 0 && <O /> }
+            board.slice(6).map((v, i) => <Cell key={i + 6} onClick={() => this.play(i + 6)}>
+            { v === 0 && <O /> }
                 { v === 1 && <X /> }
-              </Cell> : null).filter(Boolean)
+              </Cell>)
           }
           </div>
         </div>
